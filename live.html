@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>CommonTime · Responses & calendar</title>
+  <link rel="stylesheet" href="studio.css"><link rel="stylesheet" href="live.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script type="module" src="live.mjs"></script>
+</head>
+<body><main class="live-workspace">
+  <nav class="live-nav"><a class="brand" href="index.html">◷ CommonTime</a><a href="organizer.html#pages">My form pages</a></nav>
+  <div class="page-heading"><div><span class="eyebrow">YOUR RESPONSES. YOUR DECISION.</span><h1>Bring everyone<br><em>together.</em></h1><p>Review your form’s responses, choose a time, and create an event.</p></div></div>
+  <section class="card">
+    <h2>1. Connect your Google account</h2>
+    <p>Use the account that owns the form or has access to its responses. Google controls access to your forms and calendars.</p>
+    <div id="setup" hidden><label for="clientId">Google OAuth web client ID</label><input id="clientId" placeholder="…apps.googleusercontent.com"><p class="field-help">The site owner must configure Google access first. <a href="https://github.com/stingingend/commontime-scheduler/blob/main/GOOGLE-SETUP.md" target="_blank" rel="noopener">Setup instructions</a>. Never enter a client secret.</p></div>
+    <button id="connect" class="button primary">Connect Google</button> <button id="disconnect" class="button" hidden>Disconnect</button>
+    <p id="connection" role="status">Not connected. Your responses stay private to this session.</p>
+  </section>
+  <fieldset id="workspace" disabled>
+    <section class="card">
+      <h2>2. Review responses</h2>
+      <form id="loadForm"><label for="formInput">Google Form editor link or form ID</label><input id="formInput" required placeholder="https://docs.google.com/forms/d/…/edit"><p class="field-help">Open your form in Google Forms and copy the editor address. The public respondent link has a different ID.</p><button class="button" id="load">Load / refresh responses</button></form>
+      <h3 id="formTitle"></h3><p id="responseCount"></p><div id="responses"></div>
+    </section>
+    <section class="card" id="schedule" hidden>
+      <h2>3. Choose the event</h2>
+      <p>Check the selected responses above before choosing a time. Nothing is scheduled automatically.</p>
+      <form id="eventForm">
+        <label for="calendar">Calendar</label><select id="calendar" required></select>
+        <label for="title">Event title</label><input id="title" maxlength="200" required>
+        <div class="field-row"><div><label for="start">Start</label><input id="start" type="datetime-local" required></div><div><label for="end">End</label><input id="end" type="datetime-local" required></div></div>
+        <p id="timezone" class="field-help"></p>
+        <label class="check-label"><input id="invite" type="checkbox"> Email calendar invitations to selected respondents</label>
+        <p class="field-help">Invitations use Google Forms’ collected email addresses. Turn on “Collect email addresses” in your form to use this option. Other answers are never copied into the event.</p>
+        <button class="button primary">Review event</button>
+      </form>
+    </section>
+  </fieldset>
+  <p id="status" role="status" aria-live="polite"></p><p id="result"></p>
+  <dialog id="review"><h2>Ready to create this event?</h2><p id="reviewText"></p><p id="reviewGuests"></p><div class="inline-actions"><button id="confirm" class="button primary">Create Google Calendar event</button><button id="cancel" class="button">Back</button></div><p id="reviewStatus" role="status"></p></dialog>
+</main></body></html>
