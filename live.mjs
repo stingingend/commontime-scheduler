@@ -49,8 +49,10 @@ $('loadForm').addEventListener('submit', async event => {
   try {
     const result = await api.form($('formInput').value);
     if (run !== generation) return;
-    loaded = result; $('formTitle').textContent = result.form.info.title;
-    $('title').value = result.form.info.title;
+    loaded = result;
+    const formTitle = result.form.info?.title || result.form.info?.documentTitle || 'Your meeting';
+    $('formTitle').textContent = formTitle;
+    $('title').value = formTitle;
     $('responseCount').textContent = `${result.responses.length} response(s). Select the people to schedule.`;
     const titles = new Map();
     for (const item of result.form.items || []) {
