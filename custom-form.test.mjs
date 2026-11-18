@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {meetingAnswer} from './custom-form.mjs';
+const now=Date.parse('2026-11-18T00:00:00Z');
+assert.match(meetingAnswer('2026-11-19','10:00','America/New_York',30,now),/Start: 2026-11-19T15:00:00.000Z. End: 2026-11-19T15:30:00.000Z/);
+assert.match(meetingAnswer('2027-07-01','10:00','America/New_York',45,now),/Start: 2027-07-01T14:00:00.000Z. End: 2027-07-01T14:45:00.000Z/);
+assert.match(meetingAnswer('2026-11-19','10:00','Asia/Kolkata',15,now),/Start: 2026-11-19T04:30:00.000Z/);
+assert.match(meetingAnswer('2026-11-19','23:45','UTC',60,now),/End: 2026-11-20T00:45:00.000Z/);
+assert.throws(()=>meetingAnswer('2027-03-14','02:30','America/New_York',30,now),/clocks change/);
+assert.throws(()=>meetingAnswer('2026-11-17','10:00','UTC',30,now),/future/);
+assert.throws(()=>meetingAnswer('2026-11-19','10:00','UTC',20,now),/length/);
+assert.throws(()=>meetingAnswer('','10:00','UTC',30,now),/date/);
+assert.throws(()=>meetingAnswer('2027-02-30','10:00','UTC',30,now));
+console.log('9 custom meeting date and duration checks passed.');
