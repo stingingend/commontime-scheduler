@@ -9,6 +9,7 @@ export function meetingAnswer(day,time,zone,duration,now=Date.now()){
  return 'Start: '+start.toISOString()+'. End: '+new Date(start.getTime()+Number(duration)*60000).toISOString()+'. Entered as '+day+' at '+time+' in '+zone+'. Duration: '+duration+' minutes.';
 }
 if(typeof document!=='undefined'){
+ if(new URLSearchParams(location.search).get('embed')==='1')document.body.classList.add('custom-embedded');
  const $=id=>document.getElementById(id),form=$('customMeetingForm'),date=$('meetingDate'),time=$('meetingTime'),zone=$('meetingZone');
  const localZone=Intl.DateTimeFormat().resolvedOptions().timeZone;
  if(![...zone.options].some(o=>o.value===localZone)){const option=document.createElement('option');option.value=localZone;option.textContent=localZone.replaceAll('_',' ');zone.append(option);}zone.value=localZone;
